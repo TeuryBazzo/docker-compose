@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres
+    container_name: db
+    environment:
+      - POSTGRES_PASSWORD=password
+    networks:
+      - network_db_to_app
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+  app:
+    image: app:lastest
+    container_name: app
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=postgres
+      - POSTGRES_HOST=db
+    networks:
+      - network_db_to_app
+
+networks:
+  network_db_to_app:
+    driver: bridge
